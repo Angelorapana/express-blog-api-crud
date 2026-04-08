@@ -27,8 +27,24 @@ function update(req, res) {
 }
 
 function destroy(req, res) {
-  res.send("Eliminazione post");
+  const id = parseInt(req.params.id);
+
+  const index = posts.findIndex(post => post.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      error: "Post non trovato"
+    });
+  }
+
+  posts.splice(index, 1);
+
+  console.log(posts);
+
+  res.sendStatus(204);
 }
+
+
 
 module.exports = {
   index,
