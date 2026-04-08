@@ -23,8 +23,29 @@ function store(req, res) {
 }
 
 function update(req, res) {
-  res.send("Modifica post");
+  const id = parseInt(req.params.id);
+
+  const post = posts.find(p => p.id === id);
+
+  if (!post) {
+    return res.status(404).json({
+      error: "Post non trovato"
+    });
+  }
+
+  if (!req.body) {
+    return res.status(400).json({
+      error: "Body mancante"
+    });
+  }
+
+  post.title = req.body.title || post.title;
+  post.content = req.body.content || post.content;
+  post.tags = req.body.tags || post.tags;
+
+  res.json(post);
 }
+
 
 function destroy(req, res) {
   const id = parseInt(req.params.id);
