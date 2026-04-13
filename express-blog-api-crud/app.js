@@ -17,6 +17,13 @@ app.use((req, res) => {
   });
 });
 
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    error: err.name || "ERRORE INTERNO AL SERVER",
+    message: err.message || "Errore generico"
+  });
+});
+
 app.listen(3000, () => {
   console.log("Prova");
 });
